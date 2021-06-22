@@ -1,0 +1,162 @@
+# Default values for boldbi.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: boldbi
+appBaseUrl: ""
+optionalLibs: phantomjs,mongodb,mysql,influxdb,snowflake,oracle,npgsql
+clusterType: onpremise
+
+persistentVolume:
+  capacity: 3Gi
+  gke:
+    fileShareName: ""
+    fileShareIp: ""
+  eks:
+    efsFileSystemId: ""
+  aks:
+    fileShareName: ""
+    # base64 string
+    azureStorageAccountName: ""
+    azureStorageAccountKey: ""
+  onpremise:
+    hostPath: ""
+
+image:
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "4.1.42_20210531"
+
+imagePullSecrets: []
+
+services:
+  - app: id-web
+    deploymentName: id-web-deployment
+    serviceName: id-web-service    
+    volumeName: id-web-volume
+    hpaName: id-web-hpa
+    portName: id-web-port
+    repository: gcr.io/boldbi-294612/boldbi-identity
+    port: 6000
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+  - app: id-api
+    deploymentName: id-api-deployment
+    serviceName: id-api-service   
+    volumeName: id-api-volume
+    hpaName: id-api-hpa
+    portName: id-api-port
+    repository: gcr.io/boldbi-294612/boldbi-identity-api
+    port: 6001
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+  - app: id-ums
+    deploymentName: id-ums-deployment
+    serviceName: id-ums-service   
+    volumeName: id-ums-volume
+    hpaName: id-ums-hpa
+    portName: id-ums-port
+    repository: gcr.io/boldbi-294612/boldbi-ums
+    port: 6002
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+  - app: bi-web
+    deploymentName: bi-web-deployment
+    serviceName: bi-web-service    
+    volumeName: bi-web-volume
+    hpaName: bi-web-hpa
+    portName: bi-web-port
+    repository: gcr.io/boldbi-294612/boldbi-server
+    port: 6004
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+  - app: bi-api
+    deploymentName: bi-api-deployment
+    serviceName: bi-api-service    
+    volumeName: bi-api-volume
+    hpaName: bi-api-hpa
+    portName: bi-api-port
+    repository: gcr.io/boldbi-294612/boldbi-server-api
+    port: 6005
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+  - app: bi-jobs
+    deploymentName: bi-jobs-deployment
+    serviceName: bi-jobs-service   
+    volumeName: bi-jobs-volume
+    hpaName: bi-jobs-hpa
+    portName: bi-jobs-port
+    repository: gcr.io/boldbi-294612/boldbi-server-jobs
+    port: 6006
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+  - app: bi-dataservice
+    deploymentName: bi-dataservice-deployment
+    serviceName: bi-dataservice-service    
+    volumeName: bi-dataservice-volume
+    hpaName: bi-dataservice-hpa
+    portName: bi-dataservice-port
+    repository: gcr.io/boldbi-294612/boldbi-designer
+    port: 6007
+    replicaCount: 1
+    minReplicas: 1
+    maxReplicas: 20
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 750Mi
+    
+readinessProbe:
+  httpGet:
+    path: /health-check
+    port: 80
+  initialDelaySecondsIdWeb: 30
+  initialDelaySeconds: 20
+  periodSeconds: 10
+
+autoscaling:
+  enabled: true
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+  behavior:
+    stabilizationWindowSeconds: 60
+    podsValue: 1
+    podsPeriodSeconds: 60
+    percentValue: 10
+    percentPeriodSeconds: 60
+  
+service:
+  type: ClusterIP
+  protocol: TCP
+  port:
+    idWeb: 6000
+    idApi: 6001
+    idUms: 6002
+    biWeb: 6004
+    biApi: 6005
+    biJobs: 6006
+    biDataService: 6007
+  targetPort: 80
+
+bingMapWidget:
+  enabled: false
+  apiKey: ""
+
+ingress:
+  enabled: true
+  secretName: boldbi-tls
+  # tls:
+    # enabled: false
+    # hostArray:
+      # - hosts: 
+          # - kubernetes.docker.internal
+          # - example.com
+        # secretName: boldbi-tls
+  

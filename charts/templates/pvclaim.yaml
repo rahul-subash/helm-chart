@@ -1,0 +1,87 @@
+{{- if or (eq .Values.clusterType "eks") (eq .Values.clusterType "onpremise") }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  {{- if eq .Values.clusterType "eks" }}
+  name: efs-sc
+  {{- else if eq .Values.clusterType "onpremise" }}
+  name: boldbi-storageclass
+  {{- end }}
+  namespace: {{ .Values.namespace }}
+{{- if eq .Values.clusterType "eks" }}
+provisioner: efs.csi.aws.com
+{{- else if eq .Values.clusterType "onpremise" }}
+provisioner: kubernetes.io/no-provisioner
+{{- end }}
+{{- if eq .Values.clusterType "onpremise" }}
+volumeBindingMode: WaitForFirstConsumer
+{{- end }}
+---
+{{- end }}
+{{- if eq .Values.clusterType "aks" }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: boldbi-azure-secret
+  namespace: {{ .Values.namespace }}
+type: Opaque
+data:
+  azurestorageaccountname: {{ .Values.persistentVolume.aks.azureStorageAccountName }}
+  azurestorageaccountkey: {{ .Values.persistentVolume.aks.azureStorageAccountKey }}
+---
+{{- end }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: boldbi-fileserver
+ namespace: {{ .Values.namespace }}
+spec:
+ capacity:
+   storage: {{ .Values.persistentVolume.capacity }}
+ accessModes:
+ - ReadWriteMany
+ {{- if or (eq .Values.clusterType "eks") (eq .Values.clusterType "aks") }}
+ persistentVolumeReclaimPolicy: Retain
+ {{- end }}
+ {{- if eq .Values.clusterType "onpremise" }}
+ storageClassName: boldbi-storageclass
+ hostPath:
+   path: "{{ .Values.persistentVolume.onpremise.hostPath }}"
+ {{- else if eq .Values.clusterType "eks" }}
+ storageClassName: efs-sc
+ csi:
+   driver: efs.csi.aws.com
+   volumeHandle: {{ .Values.persistentVolume.eks.efsFileSystemId }}
+ {{- else if eq .Values.clusterType "aks" }}
+ storageClassName: azurefile
+ azureFile:
+   secretName: boldbi-azure-secret
+   shareName: {{ .Values.persistentVolume.aks.fileShareName }}
+   readOnly: false
+ {{- else if eq .Values.clusterType "gke" }}
+ nfs:
+   path: /{{ .Values.persistentVolume.gke.fileShareName }}
+   server: {{ .Values.persistentVolume.gke.fileShareIp }}
+ {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: boldbi-fileserver-claim
+ namespace: {{ .Values.namespace }}
+spec:
+ accessModes:
+ - ReadWriteMany
+ {{- if eq .Values.clusterType "onpremise" }}
+ storageClassName: boldbi-storageclass
+ {{- else if eq .Values.clusterType "eks" }}
+ storageClassName: efs-sc
+ {{- else if eq .Values.clusterType "aks" }}
+ storageClassName: azurefile
+ {{- else if eq .Values.clusterType "gke" }}
+ storageClassName: ""
+ {{- end }}
+ volumeName: boldbi-fileserver 
+ resources:
+   requests:
+     storage: {{ .Values.persistentVolume.capacity }}

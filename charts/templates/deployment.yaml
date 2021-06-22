@@ -1,0 +1,58 @@
+{{- range $service := .Values.services}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $service.deploymentName }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ $service.app }}
+  replicas: {{ $service.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ $service.app }}
+    spec:
+      containers:
+      - name: {{ $service.deploymentName }}
+        image: "{{ $service.repository }}:{{ $.Values.image.tag }}"
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: {{ $.Values.resources.requests.cpu }}
+            memory: {{ $.Values.resources.requests.memory }}
+        {{- if eq $service.app "id-web" }}
+        env:
+        - name: APP_BASE_URL
+          value: {{ $.Values.appBaseUrl }}
+        - name: INSTALL_OPTIONAL_LIBS
+          value: {{ $.Values.optionalLibs }}
+        {{- else if and (eq $service.app "bi-dataservice") $.Values.bingMapWidget.enabled }}
+        env:
+        - name: widget_bing_map_enable
+          value: "{{ $.Values.bingMapWidget.enabled }}"
+        - name: widget_bing_map_api_key
+          value: "{{ $.Values.bingMapWidget.apiKey }}"
+        {{- end }}
+        readinessProbe:
+          httpGet:
+            path: {{ $.Values.readinessProbe.httpGet.path }}
+            port: {{ $.Values.readinessProbe.httpGet.port }}
+          {{- if eq $service.app "id-web" }}
+          initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySecondsIdWeb }}
+          {{- else }}
+          initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySeconds }}
+          {{- end }}
+          periodSeconds: {{ $.Values.readinessProbe.periodSeconds }}
+        volumeMounts:
+        - mountPath: /boldbi/app_data
+          name: {{ $service.volumeName }}
+      volumes:
+      - name: {{ $service.volumeName }}
+        persistentVolumeClaim:
+          claimName: boldbi-fileserver-claim
+          readOnly: false
+---
+{{- end }}
