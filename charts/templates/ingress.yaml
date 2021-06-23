@@ -21,7 +21,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: "boldbi.k8s.pod.id"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "600"
     nginx.ingress.kubernetes.io/proxy-body-size: 200m
-    nginx.ingress.kubernetes.io/server-snippet: |      
+    nginx.ingress.kubernetes.io/server-snippet: |
       client_max_body_size 200m;
       set $boldbi_namespace "{{ .Values.namespace }}";
       
@@ -443,11 +443,10 @@ spec:
     {{- end }}
   rules:
   - http: 
-  {{- else }}
+  {{- end }}
   rules:
   - host: {{ (split "/" .Values.appBaseUrl)._2 }}
     http:
-  {{- end }}
       paths:
       - path: /
         backend:
