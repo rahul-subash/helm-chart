@@ -25,7 +25,7 @@ persistentVolume:
 image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "4.1.43_20210607"
+  tag: "4.1.45_20210622"
 
 imagePullSecrets: []
 
@@ -41,6 +41,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/idp/web/logs
   - app: id-api
     deploymentName: id-api-deployment
     serviceName: id-api-service   
@@ -52,6 +53,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/idp/api/logs
   - app: id-ums
     deploymentName: id-ums-deployment
     serviceName: id-ums-service   
@@ -63,6 +65,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/idp/ums/logs
   - app: bi-web
     deploymentName: bi-web-deployment
     serviceName: bi-web-service    
@@ -74,6 +77,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/bi/web/logs
   - app: bi-api
     deploymentName: bi-api-deployment
     serviceName: bi-api-service    
@@ -85,6 +89,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/bi/api/logs
   - app: bi-jobs
     deploymentName: bi-jobs-deployment
     serviceName: bi-jobs-service   
@@ -96,6 +101,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/bi/jobs/logs
   - app: bi-dataservice
     deploymentName: bi-dataservice-deployment
     serviceName: bi-dataservice-service    
@@ -107,6 +113,7 @@ services:
     replicaCount: 1
     minReplicas: 1
     maxReplicas: 20
+    logPath: /boldbi/bi/dataservice/logs
 
 resources:
   requests:
