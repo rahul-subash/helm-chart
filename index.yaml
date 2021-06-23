@@ -3,14 +3,14 @@ entries:
   boldbi:
   - apiVersion: v2
     appVersion: 4.1.36
-    created: "2021-06-23T16:07:48.6219647+05:30"
+    created: "2021-06-23T16:14:41.1221709+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
       version: 3.33.0
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: 90c3c1f820e25044e08e2b375f5a33a8df20c5a6ba6dcd29935d7ff375035734
+    digest: 11f89528db4447e5f70231e324be620a1081673acc2571fa83b0c4180221d09d
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -18,4 +18,4 @@ entries:
     urls:
     - https://rahul-subash.github.io/helm-chart/boldbi-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-23T16:07:48.6192074+05:30"
+generated: "2021-06-23T16:14:41.1181112+05:30"
