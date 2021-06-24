@@ -49,15 +49,10 @@ spec:
         volumeMounts:
         - mountPath: /boldbi/app_data
           name: {{ $service.volumeName }}
-        - mountPath: {{ $service.logPath }}
-          name: log4net-config-volume
       volumes:
       - name: {{ $service.volumeName }}
         persistentVolumeClaim:
           claimName: boldbi-fileserver-claim
           readOnly: false
-      - name: log4net-config-volume
-        configMap:
-          name: log4net-config
 ---
 {{- end }}
