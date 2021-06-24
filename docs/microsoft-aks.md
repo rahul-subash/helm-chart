@@ -13,8 +13,8 @@
 ## Get Repo Info
 
 ```console
-helm repo add rahul-subash https://rahul-subash.github.io/helm-chart
-helm repo update
+$ helm repo add rahul-subash https://rahul-subash.github.io/helm-chart
+$ helm repo update
 ```
 
 _See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation._
