@@ -23,7 +23,7 @@ _See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation
 
 ```console
 # Helm 3
-$ helm install [RELEASE_NAME] rahul-subash/boldbi --set appBaseUrl=<Host URL>,persistentVolume.onpremise.hostPath=/run/desktop/mnt/host/<local_directory>
+$ helm install [RELEASE_NAME] rahul-subash/boldbi --set appBaseUrl=[Host URL],persistentVolume.onpremise.hostPath=/run/desktop/mnt/host/[local_directory] [flags]
 ```
 
 _See [configuration](configuration.md) below._

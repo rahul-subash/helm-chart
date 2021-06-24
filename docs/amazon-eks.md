@@ -28,7 +28,7 @@ _See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation
 
 ```console
 # Helm 3
-$ helm install [RELEASE_NAME] rahul-subash/boldbi --set appBaseUrl=[Host URL],persistentVolume.eks.efsFileSystemId=[efs_file_system_id]
+$ helm install [RELEASE_NAME] rahul-subash/boldbi --set appBaseUrl=[Host URL],persistentVolume.eks.efsFileSystemId=[efs_file_system_id] [flags]
 ```
 
 _See [configuration](configuration.md) below._

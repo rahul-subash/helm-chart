@@ -31,7 +31,7 @@ _See [helm repo](https://helm.sh/docs/helm/helm_repo/) for command documentation
 
 ```console
 # Helm 3
-$ helm install [RELEASE_NAME] rahul-subash/boldbi --set appBaseUrl=[Host URL],persistentVolume.gke.fileShareName=[File share name],persistentVolume.gke.fileShareIp=[IP address]
+$ helm install [RELEASE_NAME] rahul-subash/boldbi --set appBaseUrl=[Host URL],persistentVolume.gke.fileShareName=[File share name],persistentVolume.gke.fileShareIp=[IP address] [flags]
 ```
 
 _See [configuration](configuration.md) below._
