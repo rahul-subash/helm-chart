@@ -4,8 +4,8 @@
 
 namespace: boldbi
 appBaseUrl: ""
-optionalLibs: phantomjs,mongodb,mysql,influxdb,snowflake,oracle,npgsql
-clusterType: onpremise
+optionalLibs: ""
+clusterType: ""
 
 persistentVolume:
   capacity: 3Gi
