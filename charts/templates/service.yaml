@@ -5,6 +5,7 @@ metadata:
   name: {{ $service.serviceName }}
   namespace: {{ $.Values.namespace }}
   labels:
+    {{- include "boldbi.labels" . | nindent 4 }}
     app: {{ $service.app }}
 spec:
   type: {{ $.Values.service.type }}

@@ -4,6 +4,8 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ $service.hpaName }}
+  labels:
+    {{- include "boldbi.labels" . | nindent 4 }}
   namespace: {{ $.Values.namespace }}
 spec:
   scaleTargetRef:

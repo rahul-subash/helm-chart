@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ $service.deploymentName }}
+  labels:
+    {{- include "boldbi.labels" . | nindent 4 }}
   namespace: {{ $.Values.namespace }}
 spec:
   selector:
@@ -12,6 +14,7 @@ spec:
   template:
     metadata:
       labels:
+        {{- include "boldbi.labels" . | nindent 4 }}
         app: {{ $service.app }}
     spec:
       containers:
