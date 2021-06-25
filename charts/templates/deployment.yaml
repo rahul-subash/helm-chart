@@ -27,8 +27,10 @@ spec:
         env:
         - name: APP_BASE_URL
           value: {{ $.Values.appBaseUrl }}
+        {{- if $.Values.optionalLibs }}
         - name: INSTALL_OPTIONAL_LIBS
           value: {{ $.Values.optionalLibs }}
+        {{- end }}
         {{- else if and (eq $service.app "bi-dataservice") $.Values.bingMapWidget.enabled }}
         env:
         - name: widget_bing_map_enable
