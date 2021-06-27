@@ -159,7 +159,6 @@ bingMapWidget:
 ingress:
   enabled: true
   pathType: ImplementationSpecific
-  className: nginx
   secretName: boldbi-tls
   # tls:
     # enabled: false

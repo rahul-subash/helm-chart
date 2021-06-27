@@ -1,13 +1,23 @@
-{{- if .Values.ingress.enabled }}
+{{- if .Values.ingress.enabled -}}
+{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
+  {{- end }}
+{{- end }}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: boldbi-ingress
   labels:
     {{- include "boldbi.labels" . | nindent 4 }}
-  namespace: {{ .Values.namespace }}
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
     nginx.ingress.kubernetes.io/proxy-buffers: "4 256k"
@@ -23,7 +33,7 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-name: "boldbi.k8s.pod.id"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "600"
     nginx.ingress.kubernetes.io/proxy-body-size: 200m
-    nginx.ingress.kubernetes.io/server-snippet: |
+    nginx.ingress.kubernetes.io/server-snippet: |      
       client_max_body_size 200m;
       set $boldbi_namespace "{{ .Values.namespace }}";
       
@@ -427,61 +437,135 @@ metadata:
         rewrite "(?i)/idums6002/ums(/|$)(.*)" /$2 break;
         proxy_pass http://upstream_balancer;
         proxy_redirect                          off;
-      }
+      } 
 spec:
+  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   {{- if eq (split ":" .Values.appBaseUrl)._0 "https" }}
   tls:
-  - hosts:
-    {{- if .Values.ingress.tls }}
-    {{- range $host := .Values.ingress.tls.hosts }}
-    {{- range $dns := $host.hostNames }}
-    - {{ $dns }}
-    {{- end }}
-    secretName: {{ $host.secretName }}
-    {{- end }} 
-    {{- else }}
-    - {{ (split "/" .Values.appBaseUrl)._2 }}
-    secretName: {{ .Values.ingress.secretName }}
-    {{- end }}
+    - hosts:
+      {{- if .Values.ingress.tls }}
+      {{- range $host := .Values.ingress.tls.hosts }}
+      {{- range $dns := $host.hostNames }}
+        - {{ $dns }}
+      {{- end }}
+      secretName: {{ $host.secretName }}
+      {{- end }}
+      {{- else }}
+        - {{ (split "/" .Values.appBaseUrl)._2 }}
+      secretName: {{ .Values.ingress.secretName }}
+      {{- end }}
   rules:
-  - http: 
+    - http: 
+  {{- else }}
+  rules:
+    - host: {{ (split "/" .Values.appBaseUrl)._2 }}
+      http:
   {{- end }}
-  rules:
-  - host: {{ (split "/" .Values.appBaseUrl)._2 }}
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: id-web-service
-          servicePort: {{ .Values.service.port.idWeb }}
-          
-      - path: /idapi{{ .Values.service.port.idApi }}(/|$)(.*)
-        backend:
-          serviceName: id-api-service
-          servicePort: {{ .Values.service.port.idApi }}
-          
-      - path: /idums{{ .Values.service.port.idUms }}(/|$)(.*)
-        backend:
-          serviceName: id-ums-service
-          servicePort: {{ .Values.service.port.idUms }}
-          
-      - path: /biweb{{ .Values.service.port.biWeb }}(/|$)(.*)
-        backend:
-          serviceName: bi-web-service
-          servicePort: {{ .Values.service.port.biWeb }}
-          
-      - path: /biapi{{ .Values.service.port.biApi }}(/|$)(.*)
-        backend:
-          serviceName: bi-api-service
-          servicePort: {{ .Values.service.port.biApi }}
-          
-      - path: /bijobs{{ .Values.service.port.biJobs }}(/|$)(.*)
-        backend:
-          serviceName: bi-jobs-service
-          servicePort: {{ .Values.service.port.biJobs }}
-          
-      - path: /bidataservice{{ .Values.service.port.biDataService }}(/|$)(.*)
-        backend:
-          serviceName: bi-dataservice-service
-          servicePort: {{ .Values.service.port.biDataService }}
+        paths:
+          - path: /
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-id-web
+                port:
+                  number: {{ .Values.service.port.idWeb }}
+              {{- else }}
+              serviceName: id-web-service
+              servicePort: {{ .Values.service.port.idWeb }}
+              {{- end }}
+              
+          - path: /idapi{{ .Values.service.port.idApi }}(/|$)(.*)
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-id-api
+                port:
+                  number: {{ .Values.service.port.idApi }}
+              {{- else }}
+              serviceName: id-api-service
+              servicePort: {{ .Values.service.port.idApi }}
+              {{- end }}
+                  
+          - path: /idums{{ .Values.service.port.idUms }}(/|$)(.*)
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-id-ums
+                port:
+                  number: {{ .Values.service.port.idUms }}
+              {{- else }}
+              serviceName: id-ums-service
+              servicePort: {{ .Values.service.port.idUms }}
+              {{- end }}
+                  
+          - path: /biweb{{ .Values.service.port.biWeb }}(/|$)(.*)
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-bi-web
+                port:
+                  number: {{ .Values.service.port.biWeb }}
+              {{- else }}
+              serviceName: bi-web-service
+              servicePort: {{ .Values.service.port.biWeb }}
+              {{- end }}
+                  
+          - path: /biapi{{ .Values.service.port.biApi }}(/|$)(.*)
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-bi-api
+                port:
+                  number: {{ .Values.service.port.biApi }}
+              {{- else }}
+              serviceName: bi-api-service
+              servicePort: {{ .Values.service.port.biApi }}
+              {{- end }}
+                  
+          - path: /bijobs{{ .Values.service.port.biJobs }}(/|$)(.*)
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-bi-jobs
+                port:
+                  number: {{ .Values.service.port.biJobs }}
+              {{- else }}
+              serviceName: bi-jobs-service
+              servicePort: {{ .Values.service.port.biJobs }}
+              {{- end }}
+                  
+          - path: /bidataservice{{ .Values.service.port.biDataService }}(/|$)(.*)
+            {{- if and .Values.ingress.pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .Values.ingress.pathType }}
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ .Release.Name }}-bi-dataservice
+                port:
+                  number: {{ .Values.service.port.biDataService }}
+              {{- else }}
+              serviceName: bi-dataservice-service
+              servicePort: {{ .Values.service.port.biDataService }}
+              {{- end }}
 {{- end }}
