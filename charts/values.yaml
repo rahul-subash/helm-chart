@@ -5,6 +5,7 @@ namespace: boldbi
 appBaseUrl: ""
 optionalLibs: ""
 clusterProvider: ""
+
 persistentVolume:
   # persistent volumes were global resources. 
   # so if you already have Bold BI installed in your cluster, then the previous persistent volume name will conflict with current installation.
@@ -24,12 +25,14 @@ persistentVolume:
     azureStorageAccountKey: ""
   onpremise:
     hostPath: ""
+    
 image:
   repo: "gcr.io/boldbi-294612"
   # Overrides the image tag whose default is the chart appVersion.
   tag: "4.1.45_20210622"
   pullPolicy: IfNotPresent
 imagePullSecrets: []
+
 instanceConfig:
   - app: id-web
     replicaCount: 1
@@ -92,6 +95,7 @@ autoscaling:
 bingMapWidget:
   enabled: false
   apiKey: ""
+  
 ingress:
   enabled: true
   secretName: boldbi-tls

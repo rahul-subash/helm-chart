@@ -443,8 +443,6 @@ spec:
     - {{ (split "/" .Values.appBaseUrl)._2 }}
     secretName: {{ .Values.ingress.secretName }}
     {{- end }}
-  rules:
-  - http: 
   {{- end }}
   rules:
   - host: {{ (split "/" .Values.appBaseUrl)._2 }}
