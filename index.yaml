@@ -3,7 +3,24 @@ entries:
   boldbi:
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-27T12:34:22.3025939+05:30"
+    created: "2021-06-28T15:00:29.9186759+05:30"
+    dependencies:
+    - name: ingress-nginx
+      repository: https://kubernetes.github.io/ingress-nginx
+      version: 3.33.0
+    description: Embed powerful analytics inside your apps and turn your customers
+      into success stories with built-in intelligence features.
+    digest: dbb42d7d7af0f8de0254b2361d5a3678ae6a92c106cce30588b6d6b32db7f6ed
+    home: https://www.boldbi.com/
+    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
+    name: boldbi
+    type: application
+    urls:
+    - https://rahul-subash.github.io/helm-chart/boldbi-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 4.1.45
+    created: "2021-06-28T15:00:29.9153458+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -20,7 +37,7 @@ entries:
     version: 0.1.6
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-27T12:34:22.2922707+05:30"
+    created: "2021-06-28T15:00:29.8788941+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -37,7 +54,7 @@ entries:
     version: 0.1.5
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-27T12:34:22.2576251+05:30"
+    created: "2021-06-28T15:00:29.8468758+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -54,7 +71,7 @@ entries:
     version: 0.1.4
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-27T12:34:22.2280009+05:30"
+    created: "2021-06-28T15:00:29.8149849+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -71,7 +88,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-27T12:34:22.1461112+05:30"
+    created: "2021-06-28T15:00:29.7585176+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -88,7 +105,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 4.1.43
-    created: "2021-06-27T12:34:22.0986059+05:30"
+    created: "2021-06-28T15:00:29.7254502+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -105,7 +122,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 4.1.36
-    created: "2021-06-27T12:34:22.0316574+05:30"
+    created: "2021-06-28T15:00:29.6884279+05:30"
     dependencies:
     - name: ingress-nginx
       repository: https://kubernetes.github.io/ingress-nginx
@@ -120,4 +137,4 @@ entries:
     urls:
     - https://rahul-subash.github.io/helm-chart/boldbi-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-27T12:34:21.9118396+05:30"
+generated: "2021-06-28T15:00:29.5141087+05:30"
