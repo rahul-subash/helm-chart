@@ -1,9 +1,7 @@
-{{- range $service := .Values.services}}
+{{- range $service := .Values.instanceConfig}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $service.serviceName }}
-  namespace: {{ $.Values.namespace }}
   labels:
     helm.sh/chart: {{ $.Chart.Name }}_{{ $.Chart.Version }}
     app.kubernetes.io/name: {{ $service.app }}
@@ -12,13 +10,29 @@ metadata:
     app.kubernetes.io/version: {{ $.Chart.AppVersion | quote }}
     {{- end }}
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
+  name: {{ $service.app }}-service
+  namespace: {{ $.Values.namespace }}
 spec:
   type: {{ $.Values.service.type }}
   ports:
-  - name: {{ $service.portName }}
-    port: {{ $service.port }}
-    targetPort: {{ $.Values.service.targetPort }}
-    protocol: {{ $.Values.service.protocol }}
+  - name: {{ $service.app }}-port
+    {{- if eq $service.app "id-web" }}
+    port: 6000
+    {{- else if eq $service.app "id-api" }}
+    port: 6001
+    {{- else if eq $service.app "id-ums" }}
+    port: 6002
+    {{- else if eq $service.app "bi-web" }}
+    port: 6004
+    {{- else if eq $service.app "bi-api" }}
+    port: 6005
+    {{- else if eq $service.app "bi-jobs" }}
+    port: 6006
+    {{- else if eq $service.app "bi-dataservice" }}
+    port: 6007
+    {{- end }}
+    targetPort: {{ $.Values.service.port }}
+    protocol: TCP
   selector:
     app.kubernetes.io/name: {{ $service.app }}
     app.kubernetes.io/instance: {{ $.Release.Name }}

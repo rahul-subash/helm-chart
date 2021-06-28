@@ -1,9 +1,8 @@
 {{- if .Values.autoscaling.enabled }}
-{{- range $service := .Values.services}}
+{{- range $service := .Values.instanceConfig}}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ $service.hpaName }}
   labels:
     helm.sh/chart: {{ $.Chart.Name }}_{{ $.Chart.Version }}
     app.kubernetes.io/name: {{ $service.app }}
@@ -12,12 +11,13 @@ metadata:
     app.kubernetes.io/version: {{ $.Chart.AppVersion | quote }}
     {{- end }}
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
+  name: {{ $service.app }}-hpa
   namespace: {{ $.Values.namespace }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ $service.deploymentName }}
+    name: {{ $service.app }}-deployment
   minReplicas: {{ $service.minReplicas }}
   maxReplicas: {{ $service.maxReplicas }}
   metrics:
@@ -37,7 +37,7 @@ spec:
         type: Utilization
         averageUtilization: {{ $.Values.autoscaling.targetMemoryUtilizationPercentage }}
   {{- end }}
-  {{- if ne $.Values.clusterType "gke" }}
+  {{- if ne $.Values.clusterProvider "gke" }}
   behavior:
     scaleDown:
       stabilizationWindowSeconds: {{ $.Values.autoscaling.behavior.stabilizationWindowSeconds }}

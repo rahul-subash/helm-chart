@@ -1,8 +1,7 @@
-{{- range $service := .Values.services}}
+{{- range $service := .Values.instanceConfig}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ $service.deploymentName }}
   labels:
     helm.sh/chart: {{ $.Chart.Name }}_{{ $.Chart.Version }}
     app.kubernetes.io/name: {{ $service.app }}
@@ -11,6 +10,7 @@ metadata:
     app.kubernetes.io/version: {{ $.Chart.AppVersion | quote }}
     {{- end }}
     app.kubernetes.io/managed-by: {{ $.Release.Service }}
+  name: {{ $service.app }}-deployment
   namespace: {{ $.Values.namespace }}
 spec:
   selector:
@@ -25,14 +25,28 @@ spec:
         app.kubernetes.io/instance: {{ $.Release.Name }}
     spec:
       containers:
-      - name: {{ $service.deploymentName }}
-        image: "{{ $service.repository }}:{{ $.Values.image.tag }}"
+      - name: {{ $service.app }}-container
+        {{- if eq $service.app "id-web" }}
+        image: "{{ $.Values.image.repo }}/boldbi-identity:{{ $.Values.image.tag }}"
+        {{- else if eq $service.app "id-api" }}
+        image: "{{ $.Values.image.repo }}/boldbi-identity-api:{{ $.Values.image.tag }}"
+        {{- else if eq $service.app "id-ums" }}
+        image: "{{ $.Values.image.repo }}/boldbi-ums:{{ $.Values.image.tag }}"
+        {{- else if eq $service.app "bi-web" }}
+        image: "{{ $.Values.image.repo }}/boldbi-server:{{ $.Values.image.tag }}"
+        {{- else if eq $service.app "bi-api" }}
+        image: "{{ $.Values.image.repo }}/boldbi-server-api:{{ $.Values.image.tag }}"
+        {{- else if eq $service.app "bi-jobs" }}
+        image: "{{ $.Values.image.repo }}/boldbi-server-jobs:{{ $.Values.image.tag }}"
+        {{- else if eq $service.app "bi-dataservice" }}
+        image: "{{ $.Values.image.repo }}/boldbi-designer:{{ $.Values.image.tag }}"
+        {{- end }}
         ports:
         - containerPort: 80
         resources:
           requests:
-            cpu: {{ $.Values.resources.requests.cpu }}
-            memory: {{ $.Values.resources.requests.memory }}
+            cpu: {{ $service.cpuResourceRequests }}
+            memory: {{ $service.memoryResourceRequests }}
         {{- if eq $service.app "id-web" }}
         env:
         - name: APP_BASE_URL
@@ -50,21 +64,35 @@ spec:
         {{- end }}
         readinessProbe:
           httpGet:
-            path: {{ $.Values.readinessProbe.httpGet.path }}
-            port: {{ $.Values.readinessProbe.httpGet.port }}
+            path: /health-check
+            port: 80
           {{- if eq $service.app "id-web" }}
-          initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySecondsIdWeb }}
+          initialDelaySeconds: 30
           {{- else }}
-          initialDelaySeconds: {{ $.Values.readinessProbe.initialDelaySeconds }}
+          initialDelaySeconds: 20
           {{- end }}
-          periodSeconds: {{ $.Values.readinessProbe.periodSeconds }}
+          periodSeconds: 10
         volumeMounts:
         - mountPath: /boldbi/app_data
-          name: {{ $service.volumeName }}
-        - mountPath: {{ $service.logPath }}
+          name: {{ $service.app }}-volume
+        {{- if eq $service.app "id-web" }}
+        - mountPath: /boldbi/idp/web/logs
+        {{- else if eq $service.app "id-api" }}
+        - mountPath: /boldbi/idp/api/logs
+        {{- else if eq $service.app "id-ums" }}
+        - mountPath: /boldbi/idp/ums/logs
+        {{- else if eq $service.app "bi-web" }}
+        - mountPath: /boldbi/bi/web/logs
+        {{- else if eq $service.app "bi-api" }}
+        - mountPath: /boldbi/bi/api/logs
+        {{- else if eq $service.app "bi-jobs" }}
+        - mountPath: /boldbi/bi/jobs/logs
+        {{- else if eq $service.app "bi-dataservice" }}
+        - mountPath: /boldbi/bi/dataservice/logs
+        {{- end }}
           name: log4net-config-volume
       volumes:
-      - name: {{ $service.volumeName }}
+      - name: {{ $service.app }}-volume
         persistentVolumeClaim:
           claimName: boldbi-fileserver-claim
           readOnly: false
