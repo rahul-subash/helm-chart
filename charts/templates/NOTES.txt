@@ -1,4 +1,4 @@
-{{-if .Release.IsInstall }}
+{{- if .Release.IsInstall }}
 Thank you for installing {{ .Chart.Name }}.
 
 1. Wait for some time till the Bold BI On-Premise application deployed to your On-Premise Kubernetes cluster.
