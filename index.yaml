@@ -3,23 +3,10 @@ entries:
   boldbi:
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-29T16:44:23.8693565+05:30"
+    created: "2021-06-29T18:30:02.2785454+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: c081b412e615a834d6251a0470b7f933f37e00934bb64b6fe933ee1508e3f65b
-    home: https://www.boldbi.com/
-    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
-    name: boldbi
-    type: application
-    urls:
-    - https://rahul-subash.github.io/helm-chart/boldbi-0.1.2.tgz
-    version: 0.1.2
-  - apiVersion: v2
-    appVersion: 4.1.43
-    created: "2021-06-29T16:44:23.8688473+05:30"
-    description: Embed powerful analytics inside your apps and turn your customers
-      into success stories with built-in intelligence features.
-    digest: 957ca1cbaf8faee0f504be7e5d92a8cdf673f1777e4f8021bd8ca4211a158e49
+    digest: b25a982b1249a005d32285d64cefa7319fff63870ea227cbd697d74893d96581
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -28,11 +15,11 @@ entries:
     - https://rahul-subash.github.io/helm-chart/boldbi-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v2
-    appVersion: 4.1.36
-    created: "2021-06-29T16:44:23.8678234+05:30"
+    appVersion: 4.1.43
+    created: "2021-06-29T18:30:02.2785454+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: 0387162cfa3c19889c9be3be0040cf97ad3c030a2f630da5865eb1a601abba3c
+    digest: 89fb1d0987d3bd30fc859e91ee4ae25bfaf2bf8832b9a6a99ba567cdb6080a97
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -40,4 +27,4 @@ entries:
     urls:
     - https://rahul-subash.github.io/helm-chart/boldbi-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-29T16:44:23.8668007+05:30"
+generated: "2021-06-29T18:30:02.2785454+05:30"
