@@ -100,3 +100,33 @@ Return if ingress supports pathType.
 {{- define "ingress.supportsPathType" -}}
   {{- or (eq (include "ingress.isStable" .) "true") (and (eq (include "ingress.apiVersion" .) "networking.k8s.io/v1beta1") (semverCompare ">= 1.18.x" (include "boldbi.kubeVersion" .))) -}}
 {{- end -}}
+
+{{/*
+Define the boldbi.namespace template if set with forceNamespace or .Release.Namespace is set
+*/}}
+{{- define "boldbi.namespace" -}}
+{{- if eq .Release.Namespace "default" -}}
+{{ printf "namespace: %s" .Values.namespace }}
+{{- else -}}
+{{ printf "namespace: %s" .Release.Namespace }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Define the boldbi.notes template if set with forceNamespace or .Release.Namespace is set
+*/}}
+{{- define "boldbi.notes-pods" -}}
+{{- if eq .Release.Namespace "default" -}}
+{{ printf "$ kubectl get pods -n %s" .Values.namespace }}
+{{- else -}}
+{{ printf "$ kubectl get pods -n %s" .Release.Namespace }}
+{{- end -}}
+{{- end -}}
+
+{{- define "boldbi.notes-hpa" -}}
+{{- if eq .Release.Namespace "default" -}}
+{{ printf "$ kubectl get hpa -n %s" .Values.namespace }}
+{{- else -}}
+{{ printf "$ kubectl get hpa -n %s" .Release.Namespace }}
+{{- end -}}
+{{- end -}}

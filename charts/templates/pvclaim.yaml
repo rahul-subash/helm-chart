@@ -9,7 +9,11 @@ metadata:
   {{- else if eq .Values.clusterProvider "onpremise" }}
   name: boldbi-storageclass
   {{- end }}
+  {{- if eq .Release.Namespace "default" }}
   namespace: {{ .Values.namespace }}
+  {{- else }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
 {{- if eq .Values.clusterProvider "eks" }}
 provisioner: efs.csi.aws.com
 {{- else if eq .Values.clusterProvider "onpremise" }}
@@ -27,7 +31,11 @@ metadata:
   labels:
     {{- include "boldbi.labels" . | nindent 4 }}
   name: boldbi-azure-secret
+  {{- if eq .Release.Namespace "default" }}
   namespace: {{ .Values.namespace }}
+  {{- else }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
 type: Opaque
 data:
   azurestorageaccountname: {{ .Values.persistentVolume.aks.azureStorageAccountName }}
@@ -40,7 +48,11 @@ metadata:
  labels:
     {{- include "boldbi.labels" . | nindent 4 }}
  name: boldbi-fileserver
+ {{- if eq .Release.Namespace "default" }}
  namespace: {{ .Values.namespace }}
+ {{- else }}
+ namespace: {{ .Release.Namespace }}
+ {{- end }}
 spec:
  capacity:
    storage: {{ .Values.persistentVolume.capacity }}
@@ -76,7 +88,11 @@ metadata:
  labels:
     {{- include "boldbi.labels" . | nindent 4 }}
  name: boldbi-fileserver-claim
+ {{- if eq .Release.Namespace "default" }}
  namespace: {{ .Values.namespace }}
+ {{- else }}
+ namespace: {{ .Release.Namespace }}
+ {{- end }}
 spec:
  accessModes:
  - ReadWriteMany
