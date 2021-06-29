@@ -3,99 +3,10 @@ entries:
   boldbi:
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-29T12:29:28.7045637+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
+    created: "2021-06-29T16:44:23.8693565+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: 69dcb7200db544a036f0feb0dce49b747fffb8ce4e2311234ef941f42db700ac
-    home: https://www.boldbi.com/
-    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
-    name: boldbi
-    type: application
-    urls:
-    - https://rahul-subash.github.io/helm-chart/boldbi-0.2.1.tgz
-    version: 0.2.1
-  - apiVersion: v2
-    appVersion: 4.1.45
-    created: "2021-06-29T12:29:28.7000013+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
-    description: Embed powerful analytics inside your apps and turn your customers
-      into success stories with built-in intelligence features.
-    digest: e0a98e4b1499a47eaf9499080217a0f170e8927bd6679b55086ab5c0412ecd43
-    home: https://www.boldbi.com/
-    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
-    name: boldbi
-    type: application
-    urls:
-    - https://rahul-subash.github.io/helm-chart/boldbi-0.1.6.tgz
-    version: 0.1.6
-  - apiVersion: v2
-    appVersion: 4.1.45
-    created: "2021-06-29T12:29:28.6859041+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
-    description: Embed powerful analytics inside your apps and turn your customers
-      into success stories with built-in intelligence features.
-    digest: 0a15ffc3e6ad4792762ff0f0828a67e58472d511a0d72b5ea67e763c703e55af
-    home: https://www.boldbi.com/
-    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
-    name: boldbi
-    type: application
-    urls:
-    - https://rahul-subash.github.io/helm-chart/boldbi-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: 4.1.45
-    created: "2021-06-29T12:29:28.6671657+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
-    description: Embed powerful analytics inside your apps and turn your customers
-      into success stories with built-in intelligence features.
-    digest: 3624ab5f2bea8a1836167351740718636196fdc0b449e091b6ec729e08bc8a1f
-    home: https://www.boldbi.com/
-    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
-    name: boldbi
-    type: application
-    urls:
-    - https://rahul-subash.github.io/helm-chart/boldbi-0.1.4.tgz
-    version: 0.1.4
-  - apiVersion: v2
-    appVersion: 4.1.45
-    created: "2021-06-29T12:29:28.6432337+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
-    description: Embed powerful analytics inside your apps and turn your customers
-      into success stories with built-in intelligence features.
-    digest: ae65d20c2f2108b79cf2f3f7106dc18cfbe35ec8001ab0bb527a20fe6ebc8600
-    home: https://www.boldbi.com/
-    icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
-    name: boldbi
-    type: application
-    urls:
-    - https://rahul-subash.github.io/helm-chart/boldbi-0.1.3.tgz
-    version: 0.1.3
-  - apiVersion: v2
-    appVersion: 4.1.45
-    created: "2021-06-29T12:29:28.6055457+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
-    description: Embed powerful analytics inside your apps and turn your customers
-      into success stories with built-in intelligence features.
-    digest: 2a33c36e6956d6ef546aab16a8678ead459992110aa19c636e40eb5161f378b3
+    digest: c081b412e615a834d6251a0470b7f933f37e00934bb64b6fe933ee1508e3f65b
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -105,14 +16,10 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 4.1.43
-    created: "2021-06-29T12:29:28.5867093+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
+    created: "2021-06-29T16:44:23.8688473+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: 8e18e37d44f0bf100e3f248246591d1493328f5bfa47691bcbf87a2a46c59e58
+    digest: 957ca1cbaf8faee0f504be7e5d92a8cdf673f1777e4f8021bd8ca4211a158e49
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -122,14 +29,10 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 4.1.36
-    created: "2021-06-29T12:29:28.565185+05:30"
-    dependencies:
-    - name: ingress-nginx
-      repository: https://kubernetes.github.io/ingress-nginx
-      version: 3.33.0
+    created: "2021-06-29T16:44:23.8678234+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: 83ba218e8d9c7c3778cd320eccfa27f26d85986d78af920aa8ea77d47aa7d8a7
+    digest: 0387162cfa3c19889c9be3be0040cf97ad3c030a2f630da5865eb1a601abba3c
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -137,4 +40,4 @@ entries:
     urls:
     - https://rahul-subash.github.io/helm-chart/boldbi-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-29T12:29:28.4954635+05:30"
+generated: "2021-06-29T16:44:23.8668007+05:30"
