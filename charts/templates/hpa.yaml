@@ -41,8 +41,7 @@ spec:
         type: Utilization
         averageUtilization: {{ $.Values.autoscaling.targetMemoryUtilizationPercentage }}
   {{- end }}
-  {{- if semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion -}}
-  {{- if ne $.Values.clusterProvider "gke" }}
+  {{- if ne $.Values.clusterProvider "aks" }}
   behavior:
     scaleDown:
       stabilizationWindowSeconds: {{ $.Values.autoscaling.behavior.stabilizationWindowSeconds }}
@@ -54,7 +53,6 @@ spec:
         value: {{ $.Values.autoscaling.behavior.percentValue }}
         periodSeconds: {{ $.Values.autoscaling.behavior.percentPeriodSeconds }}
   {{- end }}
-  {{- end -}}
 ---
 {{- end }}
 {{- end }}
