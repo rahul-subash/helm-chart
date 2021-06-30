@@ -98,7 +98,7 @@ spec:
       volumes:
       - name: {{ $service.app }}-volume
         persistentVolumeClaim:
-          claimName: boldbi-fileserver-claim
+          claimName: {{ .Values.persistentVolume.name }}-claim
           readOnly: false
       - name: log4net-config-volume
         configMap:

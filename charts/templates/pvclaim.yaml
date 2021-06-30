@@ -47,7 +47,7 @@ kind: PersistentVolume
 metadata:
  labels:
     {{- include "boldbi.labels" . | nindent 4 }}
- name: boldbi-fileserver
+ name: {{ .Values.persistentVolume.name }}
  {{- if eq .Release.Namespace "default" }}
  namespace: {{ .Values.namespace }}
  {{- else }}
@@ -87,7 +87,7 @@ kind: PersistentVolumeClaim
 metadata:
  labels:
     {{- include "boldbi.labels" . | nindent 4 }}
- name: boldbi-fileserver-claim
+ name: {{ .Values.persistentVolume.name }}-claim
  {{- if eq .Release.Namespace "default" }}
  namespace: {{ .Values.namespace }}
  {{- else }}
@@ -105,7 +105,7 @@ spec:
  {{- else if eq .Values.clusterProvider "gke" }}
  storageClassName: ""
  {{- end }}
- volumeName: boldbi-fileserver 
+ volumeName: {{ .Values.persistentVolume.name }} 
  resources:
    requests:
      storage: {{ .Values.persistentVolume.capacity }}
