@@ -3,10 +3,10 @@ entries:
   boldbi:
   - apiVersion: v2
     appVersion: 4.1.45
-    created: "2021-06-30T15:35:42.7161259+05:30"
+    created: "2021-06-30T19:02:57.9251328+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
-    digest: 2ba3633eb97c98085994d2c5cb0ec46a409a9aeb5e6765d852d5e9c3ee69cf2f
+    digest: d42225c5b000453dd60df28f263a07b1ac74d4ef88a132135a2e8c64a72c55d9
     home: https://www.boldbi.com/
     icon: https://website-assets.boldbi.com/wp-content/uploads/2019/05/boldbi-header-menu-logo.svg
     name: boldbi
@@ -16,7 +16,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 4.1.43
-    created: "2021-06-30T15:35:42.7154109+05:30"
+    created: "2021-06-30T19:02:57.9245833+05:30"
     description: Embed powerful analytics inside your apps and turn your customers
       into success stories with built-in intelligence features.
     digest: 89fb1d0987d3bd30fc859e91ee4ae25bfaf2bf8832b9a6a99ba567cdb6080a97
@@ -27,4 +27,4 @@ entries:
     urls:
     - https://rahul-subash.github.io/helm-chart/boldbi-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-30T15:35:42.7143623+05:30"
+generated: "2021-06-30T19:02:57.9234218+05:30"
