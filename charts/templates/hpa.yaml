@@ -41,7 +41,7 @@ spec:
         type: Utilization
         averageUtilization: {{ $.Values.autoscaling.targetMemoryUtilizationPercentage }}
   {{- end }}
-  {{- if and (semverCompare ">= 1.18.x" (include "boldbi.kubeVersion" .)) (ne $.Values.clusterProvider "gke") }}
+  {{- if ne $.Values.clusterProvider "aks" }}
   behavior:
     scaleDown:
       stabilizationWindowSeconds: {{ $.Values.autoscaling.behavior.stabilizationWindowSeconds }}
