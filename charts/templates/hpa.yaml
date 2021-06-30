@@ -1,6 +1,6 @@
 {{- if .Values.autoscaling.enabled }}
 {{- range $service := .Values.instanceConfig}}
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
@@ -41,6 +41,7 @@ spec:
         type: Utilization
         averageUtilization: {{ $.Values.autoscaling.targetMemoryUtilizationPercentage }}
   {{- end }}
+  {{- if semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion -}}
   {{- if ne $.Values.clusterProvider "gke" }}
   behavior:
     scaleDown:
@@ -53,6 +54,7 @@ spec:
         value: {{ $.Values.autoscaling.behavior.percentValue }}
         periodSeconds: {{ $.Values.autoscaling.behavior.percentPeriodSeconds }}
   {{- end }}
+  {{- end -}}
 ---
 {{- end }}
 {{- end }}
